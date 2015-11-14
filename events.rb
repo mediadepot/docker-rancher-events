@@ -20,7 +20,6 @@ uri = URI.parse('http://rancher-metadata/2015-07-25/stacks')
 response = Net::HTTP.get_response(uri)
 p response
 
-
 puts 'Watching for events'
 Docker.options[:read_timeout] = 3600 # listen for 1 hour before timing out.
 Docker::Event.stream { |event|
