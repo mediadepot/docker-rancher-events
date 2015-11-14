@@ -10,15 +10,18 @@ puts '#########################################################################'
 # Shortcut
 uri = URI.parse('http://rancher-metadata/2015-07-25/containers')
 response = Net::HTTP.get_response(uri)
-p response
+p response.code             # => 301
+p response.body
 
 uri = URI.parse('http://rancher-metadata/2015-07-25/services')
 response = Net::HTTP.get_response(uri)
-p response
+p response.code             # => 301
+p response.body
 
 uri = URI.parse('http://rancher-metadata/2015-07-25/stacks')
 response = Net::HTTP.get_response(uri)
-p response
+p response.code             # => 301
+p response.body
 
 puts 'Watching for events'
 Docker.options[:read_timeout] = 3600 # listen for 1 hour before timing out.

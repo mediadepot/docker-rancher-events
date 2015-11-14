@@ -3,7 +3,7 @@ MAINTAINER jason@thesparktree.com
 
 
 RUN apt-get -q update && \
-    apt-get install curl
+    apt-get install curl nano
 RUN gem install rubygems-update --no-ri --no-rdoc
 RUN update_rubygems
 RUN gem install bundler --no-ri --no-rdoc
