@@ -1,27 +1,27 @@
 require 'docker'
 require 'net/http'
 require 'uri'
-
+require 'pp'
 puts '#########################################################################'
-puts Docker.version
-puts Docker.info
+pp Docker.version
+pp Docker.info
 puts '#########################################################################'
 
 # Shortcut
 uri = URI.parse('http://rancher-metadata/2015-07-25/containers')
 response = Net::HTTP.get_response(uri)
-p response.code             # => 301
-p response.body
+pp response.code             # => 301
+pp response.body
 
 uri = URI.parse('http://rancher-metadata/2015-07-25/services')
 response = Net::HTTP.get_response(uri)
-p response.code             # => 301
-p response.body
+pp response.code             # => 301
+pp response.body
 
 uri = URI.parse('http://rancher-metadata/2015-07-25/stacks')
 response = Net::HTTP.get_response(uri)
-p response.code             # => 301
-p response.body
+pp response.code             # => 301
+pp response.body
 
 puts 'Watching for events'
 Docker.options[:read_timeout] = 3600 # listen for 1 hour before timing out.
