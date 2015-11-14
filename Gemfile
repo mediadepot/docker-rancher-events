@@ -1,6 +1,3 @@
 source 'https://rubygems.org'
 gem 'daemons'
 gem 'docker-api'
-gem 'docker'
-gem 'net/http'
-gem 'uri'
