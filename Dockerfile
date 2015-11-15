@@ -22,4 +22,4 @@ RUN bundle install
 
 VOLUME [ "/srv/rancher-events"]
 
-CMD ["bash"]
+CMD ["ruby","daemon.rb","run"]
