@@ -34,11 +34,11 @@ loop do
         #this is a container start/stop event, we need to handle it.
         container = Docker::Container.get(event.id)
         labels = container.info['Config']['Labels'] || {}
-        pp labels
 
         #check if the required labels exist:
         # depot.lb.link
         if labels['depot.lb.link'] && labels['io.rancher.stack.name']
+          pp labels
           puts "processsing #{event.status} event on service: #{labels['io.rancher.stack.name']}/#{labels['io.rancher.stack_service.name']}"
         end
       end
