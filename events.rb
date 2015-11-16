@@ -43,7 +43,7 @@ loop do
         end
       end
     }
-  rescue Docker::Error::TimeoutError => e
+  rescue Docker::Error::TimeoutError, Excon::Errors::SocketError => e
     #do nothing here.
   ensure
     timestamp = Time.now.getutc.to_i
