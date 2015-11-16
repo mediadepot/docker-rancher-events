@@ -26,7 +26,7 @@ puts '#########################################################################'
 puts 'Watching for events'
 #should listen and sleep on 10s intervals.
 Docker.options[:read_timeout] = 10 # listen for 10 seconds before timing out.
-timestamp = Time.now.getutc
+timestamp = Time.now.getutc.to_i
 loop do
   Docker::Event.since(timestamp) { |event|
     if ['start','stop'].includes?(event.status)
@@ -42,7 +42,7 @@ loop do
       end
     end
   }
-  timestamp = Time.now.getutc
+  timestamp = Time.now.getutc.to_i
   sleep 10
 end
 
