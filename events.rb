@@ -45,6 +45,7 @@ loop do
     }
   rescue Docker::Error::TimeoutError, Excon::Errors::SocketError => e
     #do nothing here.
+      puts "an error occured, ignoring:\n #{e}"
   ensure
     timestamp = Time.now.getutc.to_i
     sleep 10
