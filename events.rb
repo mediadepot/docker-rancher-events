@@ -113,7 +113,7 @@ end
 
 puts 'Watching for events'
 Docker.options[:read_timeout] = nil # listen forever
-Docker::Event.since(timestamp) { |event|
+Docker::Event.stream {|event|
   if ['start','stop'].include?(event.status)
     #this is a container start/stop event, we need to handle it.
     container = Docker::Container.get(event.id)
