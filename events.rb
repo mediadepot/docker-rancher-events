@@ -112,7 +112,7 @@ end
 # # Shortcut
 
 puts 'Watching for events'
-Docker.options[:read_timeout] = nil # listen forever
+Docker.options[:read_timeout] = 0 # listen forever
 Docker::Event.stream {|event|
   if ['start','stop'].include?(event.status)
     #this is a container start/stop event, we need to handle it.
@@ -121,23 +121,25 @@ Docker::Event.stream {|event|
 
     #check if the required labels exist:
     # depot.lb.link
-    if labels['depot.lb.link'] && labels['io.rancher.stack.name']
+    if labels['depot.lb.link']
       puts "processsing #{event.status} event on service: #{labels['io.rancher.stack_service.name']}"
       puts 'event:'
       pp event
       puts 'containers'
-      pp container
+      #pp container
 
+      puts 'generate loadbalancer service links.'
       service_links = generate_loadbalancer_service_links()
-      puts 'service_links'
+      puts 'service_links:'
       pp service_links
 
+      puts 'find the default loadbalancer'
       load_balancer = get_default_loadbalancer()
-      puts 'load_balancer'
-      pp load_balancer
+      #pp load_balancer
 
+      puts 'set the loadbalancer service links'
       resp = set_loadbalancer_service_links(load_balancer, service_links)
-      puts 'set_service_links resp'
+      puts 'response:'
       pp resp
 
     end
