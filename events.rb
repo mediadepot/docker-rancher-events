@@ -63,9 +63,9 @@ def generate_loadbalancer_service_links
   service_links = []
   service_response['data'].each { |service|
     next if service['type'] != 'service'
-    link = service['launchConfig'].get('labels',{}).get('depot.lb.link', 'false')
+    link = service['launchConfig'].fetch('labels',{}).fetch('depot.lb.link', 'false')
     if link == 'true'
-      port = service['launchConfig'].get('labels',{}).get('depot.lb.port', '80')
+      port = service['launchConfig'].fetch('labels',{}).fetch('depot.lb.port', '80')
       stack_name = get_service_stack_name(service)
       service_links.push({
        'serviceId' => service['id'],
