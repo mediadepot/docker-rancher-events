@@ -73,6 +73,7 @@ def generate_loadbalancer_service_links
       })
     end
   }
+  service_links
 end
 
 def set_loadbalancer_service_links(loadbalancer, service_links)
