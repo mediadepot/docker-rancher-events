@@ -77,6 +77,7 @@ def generate_loadbalancer_service_links
 end
 
 def set_loadbalancer_service_links(loadbalancer, service_links)
+  puts 'requesting the links service url: ' +  loadbalancer['links']['service']
   loadbalancer_service_response_body = RestClient::Request.execute(:method => :get,
                                                           :url => loadbalancer['links']['service'],
                                                           :user => ENV['RANCHER_API_KEY'],
@@ -93,6 +94,7 @@ def set_loadbalancer_service_links(loadbalancer, service_links)
 
   payload = {"serviceLinks" => service_links}.to_json
 
+  puts 'serviceLinks payload: ' + payload
   set_service_links_response_body = RestClient::Request.execute(:method => :post,
                                                                    :payload => payload,
                                                                    :url => loadbalancer_service_response['actions']['"setservicelinks'],
@@ -136,7 +138,7 @@ Docker::Event.stream {|event|
 
       puts 'find the default loadbalancer'
       load_balancer = get_default_loadbalancer()
-      #pp load_balancer
+      puts load_balancer['name'] 
 
       puts 'set the loadbalancer service links'
       resp = set_loadbalancer_service_links(load_balancer, service_links)
