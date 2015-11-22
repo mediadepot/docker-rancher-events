@@ -95,6 +95,7 @@ def set_loadbalancer_service_links(loadbalancer, service_links)
   payload = {"serviceLinks" => service_links}.to_json
 
   puts 'serviceLinks payload: ' + payload
+  puts 'posting payload to url: '+ loadbalancer_service_response['actions']['setservicelinks']
   set_service_links_response_body = RestClient::Request.execute(:method => :post,
                                                                    :payload => payload,
                                                                    :url => loadbalancer_service_response['actions']['setservicelinks'],
@@ -107,6 +108,8 @@ def set_loadbalancer_service_links(loadbalancer, service_links)
   )
 
   set_service_links_response = JSON.parse(set_service_links_response_body)
+  puts 'service_links repsonse:'
+  pp  set_service_links_response
   return set_service_links_response
 
 end
