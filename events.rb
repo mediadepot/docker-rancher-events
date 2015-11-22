@@ -113,7 +113,7 @@ end
 # # Shortcut
 
 puts 'Watching for events'
-Docker.options[:read_timeout] = 0 # listen forever
+Docker.options[:read_timeout] = 3600 # timeout after an hour, should automatically restart by docker. nil and 0 dont work
 Docker::Event.stream {|event|
   if ['start','stop'].include?(event.status)
     #this is a container start/stop event, we need to handle it.
