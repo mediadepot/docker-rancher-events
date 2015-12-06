@@ -9,6 +9,10 @@ pp Docker.version
 pp Docker.info
 puts '#########################################################################'
 
+ENV['RANCHER_MANAGER_HOSTNAME'] ||= ENV['CATTLE_URL']
+ENV['RANCHER_API_KEY'] ||=  ENV['CATTLE_ACCESS_KEY']
+ENV['RANCHER_API_SECRET'] ||= ENV['CATTLE_SECRET_KEY']
+
 raise 'Environmental variable RANCHER_MANAGER_HOSTNAME is required' unless ENV['RANCHER_MANAGER_HOSTNAME']
 raise 'Environmental variable RANCHER_MANAGER_LOADBALANCER_PORT is required' unless ENV['RANCHER_MANAGER_LOADBALANCER_PORT']
 raise 'Environmental variable RANCHER_API_KEY is required' unless ENV['RANCHER_API_KEY']
@@ -17,7 +21,7 @@ raise 'Environmental variable DEPOT_DOMAIN is required' unless ENV['DEPOT_DOMAIN
 
 def get_default_loadbalancer
   loadbalancer_response_body = RestClient::Request.execute(:method => :get,
-                                                      :url => "http://#{ENV['RANCHER_MANAGER_HOSTNAME']}/v1/loadbalancers",
+                                                      :url => "#{ENV['RANCHER_MANAGER_HOSTNAME']}/loadbalancers",
                                                       :user => ENV['RANCHER_API_KEY'],
                                                       :password => ENV['RANCHER_API_SECRET'],
                                                       :headers => {
@@ -51,7 +55,7 @@ end
 def generate_loadbalancer_service_links
   #get the current active services using the metadata service.
   service_response_body = RestClient::Request.execute(:method => :get,
-                              :url => "http://#{ENV['RANCHER_MANAGER_HOSTNAME']}/v1/services",
+                              :url => "#{ENV['RANCHER_MANAGER_HOSTNAME']}/services",
                               :user => ENV['RANCHER_API_KEY'],
                               :password => ENV['RANCHER_API_SECRET'],
                               :headers => {
