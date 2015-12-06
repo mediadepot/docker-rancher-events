@@ -14,7 +14,7 @@ ENV['RANCHER_API_KEY'] ||=  ENV['CATTLE_ACCESS_KEY']
 ENV['RANCHER_API_SECRET'] ||= ENV['CATTLE_SECRET_KEY']
 
 raise 'Environmental variable RANCHER_MANAGER_HOSTNAME is required' unless ENV['RANCHER_MANAGER_HOSTNAME']
-raise 'Environmental variable RANCHER_MANAGER_LOADBALANCER_PORT is required' unless ENV['RANCHER_MANAGER_LOADBALANCER_PORT']
+raise 'Environmental variable RANCHER_LOADBALANCER_PORT is required' unless ENV['RANCHER_LOADBALANCER_PORT']
 raise 'Environmental variable RANCHER_API_KEY is required' unless ENV['RANCHER_API_KEY']
 raise 'Environmental variable RANCHER_API_SECRET is required' unless ENV['RANCHER_API_SECRET']
 raise 'Environmental variable DEPOT_DOMAIN is required' unless ENV['DEPOT_DOMAIN']
@@ -74,7 +74,7 @@ def generate_loadbalancer_service_links
       stack_name = get_service_stack_name(service)
       service_links.push({
        'serviceId' => service['id'],
-        'ports' => ["#{stack_name}.#{ENV['DEPOT_DOMAIN']}:#{ENV['RANCHER_MANAGER_LOADBALANCER_PORT']}=#{port}"]
+        'ports' => ["#{stack_name}.#{ENV['DEPOT_DOMAIN']}:#{ENV['RANCHER_LOADBALANCER_PORT']}=#{port}"]
       })
     end
   }
