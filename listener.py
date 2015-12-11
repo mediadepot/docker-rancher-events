@@ -1,6 +1,4 @@
 import websocket
-import thread
-import time
 import base64
 import os
 from processor import Processor
