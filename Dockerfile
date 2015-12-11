@@ -1,25 +1,26 @@
-FROM ruby
+FROM python
 MAINTAINER jason@thesparktree.com
 
 
-RUN apt-get -q update && \
-    apt-get install -qy --force-yes curl nano
-RUN gem install rubygems-update --no-ri --no-rdoc
-RUN update_rubygems
-RUN gem install bundler --no-ri --no-rdoc
+#Create confd folder structure
+RUN curl -L -o /usr/local/bin/confd https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-linux-amd64
+RUN chmod u+x  /usr/local/bin/confd
+ADD ./conf.d /etc/confd/conf.d
+ADD ./templates /etc/confd/templates
 
-#Create folder structure & set as volumes
-RUN mkdir -p /srv/rancher-events
+#Create rancher-events folder structure
+RUN mkdir -p /srv/rancher-events/
+
+ADD ./listener.py /srv/rancher-events/listener.py
+ADD ./processor.py /srv/rancher-events/processor.py
+ADD ./requirements.txt /srv/rancher-events/requirements.txt
 
 #Copy over start script and docker-gen files
-ADD ./daemon.rb /srv/rancher-events/daemon.rb
-ADD ./events.rb /srv/rancher-events/events.rb
-ADD ./Gemfile /srv/rancher-events/Gemfile
+ADD ./start.sh /srv/start.sh
+RUN chmod u+x  /srv/start.sh
+
 
 WORKDIR /srv/rancher-events
-RUN bundle install
+RUN pip install -r /srv/rancher-events/requirements.txt
 
-
-VOLUME [ "/srv/rancher-events"]
-
-CMD ["ruby","events.rb"]
+CMD ["/srv/start.sh"]
