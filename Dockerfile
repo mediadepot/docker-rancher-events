@@ -13,6 +13,7 @@ RUN mkdir -p /srv/rancher-events/
 
 ADD ./listener.py /srv/rancher-events/listener.py
 ADD ./processor.py /srv/rancher-events/processor.py
+ADD ./notify.py /srv/rancher-events/notify.py
 ADD ./requirements.txt /srv/rancher-events/requirements.txt
 
 #Copy over start script and docker-gen files
