@@ -2,6 +2,7 @@ import logging
 import json
 import requests
 import os
+from notify import Notify
 
 log = logging.getLogger("listener")
 
@@ -32,6 +33,18 @@ class Processor:
         if self.event['data']['resource']['state'] == 'active' or self.event['data']['resource']['state'] == 'removed':
             log.info('Detected a change in rancher services. Begin processing.')
             log.debug(self._raw)
+
+            #get the current event's stack information
+            r = requests.get(self.event['data']['resource']['links']['environment'],
+                 auth=(self.access_key, self.secret_key),
+                 headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+                 )
+            r.raise_for_status()
+            service_stack_response = r.json()
+
+            notify = Notify(service_stack_response,
+                            'started' if self.event['data']['resource']['state'] == 'active' else 'stopped')
+            notify.send()
 
             # list of running stacks, called environments in api
             r = requests.get(self.api_endpoint + '/environments',
