@@ -17,7 +17,8 @@ class Processor:
         self.access_key = os.getenv('CATTLE_ACCESS_KEY')
         self.secret_key = os.getenv('CATTLE_SECRET_KEY')
         self.domain = os.getenv('DOMAIN')
-        self.external_loadbalancer_port = os.getenv('LOADBALANCER_LISTEN_PORT','80')
+        self.external_loadbalancer_http_port = os.getenv('LOADBALANCER_HTTP_LISTEN_PORT', '80')
+        self.external_loadbalancer_https_port = os.getenv('LOADBALANCER_HTTPS_LISTEN_PORT', '443')
 
 
     def start(self):

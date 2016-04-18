@@ -15,4 +15,4 @@ Rather than set the environmental variables manually, use the following labels t
 The following keys must be available on the host metadata
 
  - depot.internal_domain
- - depot.load_balancer.listen_port
+ - depot.load_balancer.http_listen_port
