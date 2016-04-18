@@ -3,7 +3,7 @@ MAINTAINER jason@thesparktree.com
 
 
 #Create confd folder structure
-RUN curl -L -o /usr/local/bin/confd https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-linux-amd64
+RUN curl -L -o /usr/local/bin/confd https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-0.11.0-linux-amd64
 RUN chmod u+x  /usr/local/bin/confd
 ADD ./conf.d /etc/confd/conf.d
 ADD ./templates /etc/confd/templates
