@@ -32,7 +32,7 @@ class Processor:
         #for services, we only care if the status has become active, or removed
         if self.event['data']['resource']['state'] == 'active' or self.event['data']['resource']['state'] == 'removed':
             log.info('Detected a change in rancher services. Begin processing.')
-            log.debug(self._raw)
+            log.info(self._raw)
 
             #get the current event's stack information
             r = requests.get(self.event['data']['resource']['links']['environment'],
@@ -42,10 +42,12 @@ class Processor:
             r.raise_for_status()
             service_stack_response = r.json()
 
-            notify = Notify(service_stack_response,
-                            'started' if self.event['data']['resource']['state'] == 'active' else 'stopped')
-            notify.send()
-
+            try:
+                notify = Notify(service_stack_response,
+                                'started' if self.event['data']['resource']['state'] == 'active' else 'stopped')
+                notify.send()
+            except:
+                log.error('An error occured while trying to notify stack change')
             # list of running stacks, called environments in api
             r = requests.get(self.api_endpoint + '/environments',
                              auth=(self.access_key, self.secret_key),
