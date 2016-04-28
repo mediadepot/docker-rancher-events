@@ -131,7 +131,7 @@ class Processor:
 
         #filter out any services that do not have the depot.lb.link label
         for service_data in services_response['data']:
-            if (service_data['type'] != 'service') and (service_data['type'] != 'externalservice'): continue
+            if (service_data['type'] != 'service') and (service_data['type'] != 'externalService'): continue
             link = service_data['launchConfig'].get('labels',{}).get('depot.lb.link', 'false')
             if link == 'true':
                 depot_services.append(service_data)
