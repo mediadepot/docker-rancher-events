@@ -66,18 +66,19 @@ class Processor:
 
                 if stack_name == 'utility':
                     loadbalancer_service = self.get_utility_loadbalancer(stack)
-                else:
-                    depot_services = self.get_stack_services(stack)
 
-                    for service in depot_services:
 
-                        port = service['launchConfig'].get('labels',{}).get('depot.lb.port', '80')
-                        loadbalancer_entries.append({
-                            'serviceId': service['id'],
-                            'ports': [
-                                stack_name + '.' + self.domain + ':' + self.external_loadbalancer_http_port + '=' + port
-                            ]
-                        })
+                depot_services = self.get_stack_services(stack)
+
+                for service in depot_services:
+
+                    port = service['launchConfig'].get('labels',{}).get('depot.lb.port', '80')
+                    loadbalancer_entries.append({
+                        'serviceId': service['id'],
+                        'ports': [
+                            stack_name + '.' + self.domain + ':' + self.external_loadbalancer_http_port + '=' + port
+                        ]
+                    })
 
             if loadbalancer_service is None:
                 raise Exception('Could not find the Utility stack external load balancer. This should never happen')
@@ -130,7 +131,7 @@ class Processor:
 
         #filter out any services that do not have the depot.lb.link label
         for service_data in services_response['data']:
-            if service_data['type'] != 'service': continue
+            if (service_data['type'] != 'service') or (service_data['type'] != 'externalservice'): continue
             link = service_data['launchConfig'].get('labels',{}).get('depot.lb.link', 'false')
             if link == 'true':
                 depot_services.append(service_data)
