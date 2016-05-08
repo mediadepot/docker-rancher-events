@@ -64,6 +64,11 @@ class Processor:
             for stack in stacks_response['data']:
                 stack_name = stack['name']
 
+                # make sure the stack/environment is active
+                if stack['state'] != 'active':
+                    log.info(' -- -- Ignoring {0} stack because it\'s not active'.format(stack_name))
+                    continue
+
                 if stack_name == 'utility':
                     loadbalancer_service = self.get_utility_loadbalancer(stack)
 
